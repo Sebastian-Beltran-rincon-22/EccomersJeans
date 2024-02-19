@@ -6,5 +6,5 @@ import { PORT } from './src/config.js';
 
 
 app.listen(PORT);
-console.log('Live serve on', + PORT)
+console.log('Live serve on: ' + 'http://localhost:' + PORT)
 
