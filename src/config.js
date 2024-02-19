@@ -1,5 +1,5 @@
-import { config } from "dotenv";
-config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const MONGO_DB_URI =
   process.env.MONGO_DB_URI || "mongodb://localhost/api";

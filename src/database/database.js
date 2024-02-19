@@ -9,9 +9,9 @@ const connectionOptions = {
   useNewUrlParser: true,
 };
 mongoose.set("strictQuery", false);
-
+const COLLECTION_NAME = 'eccommerce';
 // database connection
 mongoose
-  .connect(MONGO_DB_URI, connectionOptions )
-  .then((db) => console.log("Db is connected"))
+  .connect(`${MONGO_DB_URI}/${COLLECTION_NAME}`, connectionOptions )
+  .then(() => console.log("Db is connected"))
   .catch((error) => console.log(error));
