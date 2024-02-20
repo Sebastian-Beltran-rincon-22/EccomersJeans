@@ -26,7 +26,7 @@ const controllerAuth = {
             return res.status(400).json({ message: 'El email ya existe en la base de datos.' });
           }
 
-          // const roles  req.body.roles ? req.body.roles :["usuario"];
+          const roles = req.body.roles ? req.body.roles :["usuario"];
 
           const newAuth = new Auth({
             firstName,
@@ -36,6 +36,7 @@ const controllerAuth = {
             phoneNumber,
             country,
             years,
+            roles
           })
 
           const savedUser = await newAuth.save();
