@@ -10,6 +10,11 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(
   cors({
+    // Permite conexiones de cualquier url
+      // origin: "*",
+      // methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+
+    // Permite conexiones de la url especifica
       origin: "http://localhost:4200",
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true,
@@ -21,6 +26,5 @@ app.use(
 //Routers
 app.use('/auth', auth);
 
-app.use(express.json());
 
 export default app;
