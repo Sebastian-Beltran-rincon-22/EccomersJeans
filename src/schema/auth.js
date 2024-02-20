@@ -34,6 +34,9 @@ const authSchema = new Schema({
       minLength:4,
       maxLength: 25
   },
+  roles:{
+    type: [String]
+  }
 
 },{collection: 'users' , versionKey: false, timestaps:true})
 
