@@ -4,13 +4,12 @@ const Schema = mongoose.Schema
 
 
 const authSchema = new Schema({
-  firstName:{
+  name:{
       type: String,
-      required: true,
       minLength:3,
       maxLength: 30
   },
-  lastName:{
+  username:{
       type: String,
       required: true,
       minLength:3,
@@ -35,31 +34,6 @@ const authSchema = new Schema({
       minLength:4,
       maxLength: 25
   },
-  phoneNumber:{
-      type:String,
-      minLength:5,
-      maxLength: 15,
-  },
-  country:{
-      type: String,
-      default: "Colombia",
-      minLength:3,
-      maxLength: 25
-  },
-  years:{
-      type: Number,
-      minLength: 5,
-      maxLength: 100
-  },
-  // descriptionUser:{
-  //     type: String,
-  //     default: "sin descripcion...",
-  //     maxLength:500
-  // },
-  // roles:{
-  //     type: [String]
-  //     // default: "usuario"
-  // }
 
 },{collection: 'users' , versionKey: false, timestaps:true})
 
@@ -83,4 +57,5 @@ const authSchema = new Schema({
     next();
   })
 const Auth = mongoose.model('User', authSchema);
+
 export default Auth;
