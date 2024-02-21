@@ -10,8 +10,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
     // Permite conexiones de cualquier url
-      // origin: "*",
-      // methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
+    //
+    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE"
 
     // Permite conexiones de la url especifica
       origin: "http://localhost:4200",
@@ -23,10 +23,13 @@ app.use(
 );
 
 //Routers
+import indexRouter from "./router/index.js"
 import authRouter from "./router/auth.js"
-import publicationRouter from './schema/Publicacion.js';
+import publicationRouter from './router/publication.js';
 
-app.use('/api/auth', authRouter);
+app.use("/api", indexRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/publication", publicationRouter)
+
 
 export default app;
