@@ -1,5 +1,5 @@
-import  Router  from "express";
-import {createPublication, getPublication, getPublicationById, updatePublicationById, deletePublicationById  } from '../controller/publication.js';
+import { Router } from "express";
+import { createPublication, getPublication, getPublicationById, updatePublicationById, deletePublicationById } from "../controller/publication.js"
 
 
 const router = Router();
