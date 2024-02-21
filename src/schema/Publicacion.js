@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
-
-const publicationSchema = new Schema({
+const publicationSchema = new mongoose.Schema({
 
   title: {
     type: String,
@@ -10,12 +8,12 @@ const publicationSchema = new Schema({
   },
 
   description:{
-    type:String,
+    type: String,
     trim: true
   },
 
   price: {
-    type: String,
+    type: Number,
     trim: true
   },
 
@@ -34,9 +32,10 @@ const publicationSchema = new Schema({
     trim: true
   }
 
+},
+{
+  timestamps: true,
+  versionKey: false
 })
 
-const Publication = mongoose.model('Publication', publicationSchema)
-
-export default Publication
-
+export default mongoose.model('Publication', publicationSchema);
