@@ -22,6 +22,21 @@ const publicationSchema = new mongoose.Schema({
     trim: true
   },
 
+  img2:{
+    type: String,
+    trim: true
+  },
+
+  img3:{
+    type: String,
+    trim: true
+  },
+
+  img4:{
+    type: String,
+    trim: true
+  },
+  
   size: {
     type: String,
     trim: true
