@@ -35,10 +35,16 @@ const authSchema = new Schema({
       maxLength: 25
   },
   roles:{
-    type: [String]
+    ref: "Role",
+    type: mongoose.Schema.Types.ObjectId
   }
 
-},{collection: 'users' , versionKey: false, timestaps:true})
+},
+{
+  versionKey: false,
+  timestaps:true
+  }
+);
 
 // Crypting password
   authSchema.statics.encryptPassword = async(password)=>{
