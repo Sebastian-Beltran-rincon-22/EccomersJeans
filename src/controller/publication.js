@@ -4,7 +4,7 @@ import Publication from "../schema/Publicacion.js";
 
 export const createPublication = async (req, res) =>{
 
-  const {title, description, price, img, size, colors} = req.body;
+  const {title, description, price, img, img2, img3, img4, size, colors} = req.body;
   if (!title || !description || !price || !img){
     return res.status(400).json({ msg: 'Todos los campos son obligatorios' });}
 
@@ -15,6 +15,9 @@ export const createPublication = async (req, res) =>{
       description,
       price,
       img,
+      img2,
+      img3,
+      img4,
       size,
       colors
     });
@@ -68,6 +71,9 @@ export const updatePublicationById = async (req, res) =>{
       description: description,
       price: price,
       img: img,
+      img2: img2,
+      img3: img3,
+      img4: img4,
       size: size,
       colors: colors,
     });
