@@ -24,14 +24,14 @@ const controllerAuth = {
             return res.status(400).json({ message: 'El email ya existe en la base de datos.' });
           }
 
-          const roles = req.body.roles ? req.body.roles :["usuario"];
+          // const roles = req.body.roles ? req.body.roles :["user"];
 
           const newAuth = new Auth({
             name,
             username,
             email,
             password,
-            roles
+            // roles
           })
 
           const savedUser = await newAuth.save();
@@ -47,24 +47,19 @@ const controllerAuth = {
           return res.status(500).json({error:"Error interno del servidor", details: error.message});
         }
       },
+    signinHandler:  async (req, res) => {
+      try {
+        const userFound = await Auth.findOne({ email: req.body.email }).populate("roles");
 
+        if (!userFound) return res.status(400).json({ message: "User Not Found" });
 
-signinHandler:  async (req, res) => {
-        try {
-          const userFound = await User.findOne({ email: req.body.email }).populate("roles");
+        const matchPassword = await Auth.comparePassword(
+          req.body.password,
+          userFound.password
+          );
 
-          if (!userFound) return res.status(400).json({ message: "User Not Found" });
-
-          const matchPassword = await User.comparePassword(
-            req.body.password,
-            userFound.password
-            );
-
-            if (!matchPassword)
-            return res.status(401).json({
-          token: null,
-          message: "Invalid Password",
-        });
+        if (!matchPassword)
+        return res.status(401).json({token: null,message: "Invalid Password"});
 
         const token = jwt.sign({ id: userFound._id }, SECRET, {
           expiresIn: 604800 // 24 hours
@@ -75,5 +70,6 @@ signinHandler:  async (req, res) => {
         console.log(error);
       }
     }
-
 };
+
+export default controllerAuth;
