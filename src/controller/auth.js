@@ -1,7 +1,5 @@
 import jwt from 'jsonwebtoken'
 import Auth from '../schema/auth.js'
-import dotenv from 'dotenv';
-dotenv.config();
 import { SECRET } from '../config.js';
 // const bcrypt = require('bcrypt')
 // const nodemailer = require('nodemailer')
@@ -19,7 +17,7 @@ const controllerAuth = {
 
       signup: async(req,res)=> {
         try{
-          const {firstName, lastName, email, password, phoneNumber, country, years} = req.body;
+          const {name, username, email, password,} = req.body;
 
           const existingEmail = await Auth.findOne({email:email}).exec();
           if(existingEmail){
@@ -29,13 +27,10 @@ const controllerAuth = {
           const roles = req.body.roles ? req.body.roles :["usuario"];
 
           const newAuth = new Auth({
-            firstName,
-            lastName,
+            name,
+            username,
             email,
             password,
-            phoneNumber,
-            country,
-            years,
             roles
           })
 
@@ -51,6 +46,34 @@ const controllerAuth = {
         }catch(error){
           return res.status(500).json({error:"Error interno del servidor", details: error.message});
         }
+      },
+
+
+signinHandler:  async (req, res) => {
+        try {
+          const userFound = await User.findOne({ email: req.body.email }).populate("roles");
+
+          if (!userFound) return res.status(400).json({ message: "User Not Found" });
+
+          const matchPassword = await User.comparePassword(
+            req.body.password,
+            userFound.password
+            );
+
+            if (!matchPassword)
+            return res.status(401).json({
+          token: null,
+          message: "Invalid Password",
+        });
+
+        const token = jwt.sign({ id: userFound._id }, SECRET, {
+          expiresIn: 604800 // 24 hours
+        });
+
+        res.json({ token });
+      } catch (error) {
+        console.log(error);
       }
-}
-export default controllerAuth;
+    }
+
+};
