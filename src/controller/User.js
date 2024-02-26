@@ -31,7 +31,9 @@ export const createUser = async (req, res) => {
       roles: savedUser.roles,
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
+    return res.status(500).json({ msg: 'Error interno del servidor', details: error.message });
+
   }
 }
 
@@ -42,7 +44,7 @@ export const getUser = async (req,res) =>{
     return res.json(Users);
   }
   catch(error){
-    return res.status(500),json({msg: error.message})
+    return res.status(500).json({msg: error.message})
   }
 }
 
@@ -62,7 +64,7 @@ export const getUserForId = async (req, res) =>{
 export const updateUserForId = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, username, email, newPassword } = req.body;
+    const { name, username, email} = req.body;
 
     const existingUser = await Auth.findById(id);
     if (!existingUser) {
@@ -72,7 +74,6 @@ export const updateUserForId = async (req, res) => {
     await Auth.findByIdAndUpdate(id, {
       name: name,
       username: username,
-      userimg: userimg,
       email: email,
 
     });

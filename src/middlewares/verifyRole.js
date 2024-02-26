@@ -1,4 +1,4 @@
-import Auth from "../schema/auth.js";
+// import Auth from "../schema/auth.js";
 import { ROLES } from "../schema/Role.js";
 
 export const checkExistingRole = (req, res, next) => {
