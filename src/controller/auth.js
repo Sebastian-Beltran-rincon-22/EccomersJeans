@@ -3,9 +3,6 @@ import bcrypt from 'bcryptjs'
 import nodemailer from 'nodemailer'
 import Auth from '../schema/auth.js'
 import Role from '../schema/Role.js';
-
-// import { config } from "dotenv";
-
 import { ADMIN_EMAIL, SECRET, ADMIN_PASSWORD, URL } from '../config.js';
 
 const transporter = nodemailer.createTransport({
