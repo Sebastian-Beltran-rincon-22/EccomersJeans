@@ -5,6 +5,7 @@ export const MONGO_DB_URI =
   process.env.MONGO_DB_URI || "mongodb://localhost/api";
 export const PORT = process.env.PORT || 4000;
 export const SECRET = process.env.SECRET;
+export const URL = process.env.URL;
 
 export const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 export const ADMIN_USERNAME = process.env.ADMIN_USERNAME;

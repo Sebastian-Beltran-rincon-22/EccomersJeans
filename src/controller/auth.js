@@ -1,17 +1,20 @@
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
+import nodemailer from 'nodemailer'
 import Auth from '../schema/auth.js'
-import { SECRET } from '../config.js';
 import Role from '../schema/Role.js';
-// const bcrypt = require('bcrypt')
-// const nodemailer = require('nodemailer')
 
-// const transporter = nodemailer.createTransport({
-//   service:"gmail",
-//   auth:{
-//     user: config.ADMIN_EMAIL,
-//     pass:config.ADMIN_PASSWORD
-//   }
-// });
+// import { config } from "dotenv";
+
+import { ADMIN_EMAIL, SECRET, ADMIN_PASSWORD, URL } from '../config.js';
+
+const transporter = nodemailer.createTransport({
+  service:"gmail",
+  auth:{
+    user: ADMIN_EMAIL,
+    pass:ADMIN_PASSWORD
+  }
+});
 
 
 const controllerAuth = {
@@ -81,9 +84,90 @@ const controllerAuth = {
 
         res.json({ token });
       } catch (error) {
-        console.log(error);
+        return res.status(500).json({ msg: 'Error interno del servidor', details: error.message });
       }
-    }
+    },
+    // Function to send an email link for password reset
+    sendPasswordLink : async (req, res) => {
+    const email = await req.body.email;
+      // console.log(req.body.email)
+      // Check if a valid email is provided
+      if (!email) {
+          return res.status(406).json({ message: "Ingresa un correo válido." });
+      }
+
+      try {
+          // Find the user in the database based on the provided email
+          const userFound = await Auth.findOne({ email: req.body.email });
+
+          // Check if the user exists
+          if (!userFound) {
+            return res.status(406).json({ message: "Ingresa un correo válido." });
+          }
+
+
+          // Generate a token for resetting the password
+          const token = jwt.sign({ id: userFound._id }, SECRET, {
+            expiresIn: 3600, // Token expiration time: 1 hour
+          });
+
+          // Configure mail options for sending the reset password email
+          const mailOptions = {
+          from: ADMIN_EMAIL,
+          to: email,
+          subject: "Enviando correo electrónico para restablecer la contraseña",
+          text: `Este Enlace es válido por 1 horas ${URL}/change-password/${token}`,
+          };
+
+          // Send the email with the reset password link
+          transporter.sendMail(mailOptions, (error, ) => {
+          if (error) {
+              // console.log("error", error);
+              return res.status(406).json({ message: "El correo no fue enviado.", error });
+          } else {
+              // console.log("Email sent", info.response);
+              return res.status(200).json({
+                status: 200,
+                message: "El correo fue enviado satisfactoriamente.",
+              });
+          }
+          });
+        } catch (error) {
+            // If an invalid user or other error occurs, show an error
+            return res.status(401).json({ status: 401, message: "Usuario inválido." });
+        }
+      },
+      // Function for changing user password
+      changePassword: async (req, res) => {
+        try{
+          // Get the new password from the request's body
+          const newPassword = req.body.password;
+          // Get the user's ID from the request
+          const id = req.body._id;
+
+          // Generate a new salt for password hashing
+          const saltRounds = 10;
+          const salt = await bcrypt.genSalt(saltRounds);
+
+          // Hash the new password using the new salt
+          const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+          // Update the user's password in the database
+          await Auth.findByIdAndUpdate(
+            {_id: id},
+            { password: hashedPassword },
+          );
+
+          // Respond with a success message
+          res.status(201).json({message: "Password changed"});
+
+        }catch(error){
+          // If a server error occurs, respond with an error message
+          // console.log(error)
+          res.status(401).json({status:401, error:"Server error"});
+        }
+      }
+
 };
 
 export default controllerAuth;
