@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import Auth from '../schema/auth.js'
 import { SECRET } from '../config.js';
+import Role from '../schema/Role.js';
 // const bcrypt = require('bcrypt')
 // const nodemailer = require('nodemailer')
 
@@ -17,24 +18,36 @@ const controllerAuth = {
 
       signup: async(req,res)=> {
         try{
-          const {name, username, email, password,} = req.body;
+          const {name, username, email, password, } = req.body;
+
 
           const existingEmail = await Auth.findOne({email:email}).exec();
           if(existingEmail){
             return res.status(400).json({ message: 'El email ya existe en la base de datos.' });
           }
 
-          // const roles = req.body.roles ? req.body.roles :["user"];
+        const roles = req.body.roles ? req.body.roles :["user"];
 
-          const newAuth = new Auth({
+          const newUser = new Auth({
             name,
             username,
             email,
             password,
-            // roles
+
           })
 
-          const savedUser = await newAuth.save();
+          if (roles && roles.length > 0) {
+            const foundRoles = await Role.find({ name: { $in: roles } });
+            if (!foundRoles || foundRoles.length === 0) {
+              return res.status(400).json({ message: "Roles not found" });
+            }
+            newUser.roles = foundRoles.map((role) => role._id);
+          } else {
+            const defaultRole = await Role.findOne({ name: "user" });
+            newUser.roles = [defaultRole._id];
+          }
+
+          const savedUser = await newUser.save();
 
           const tokenData = {id:savedUser._id }
 
@@ -47,6 +60,7 @@ const controllerAuth = {
           return res.status(500).json({error:"Error interno del servidor", details: error.message});
         }
       },
+
     signinHandler:  async (req, res) => {
       try {
         const userFound = await Auth.findOne({ email: req.body.email }).populate("roles");
