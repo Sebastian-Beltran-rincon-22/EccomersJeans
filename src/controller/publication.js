@@ -1,25 +1,21 @@
 import Publication from "../schema/Publicacion.js";
-
+import Pants from "../schema/pants.js"
 //Create
 
 export const createPublication = async (req, res) =>{
 
-  const {title, description, price, img, img2, img3, img4, size, colors} = req.body;
-  if (!title || !description || !price || !img){
+  const {title, description,} = req.body;
+  if (!title || !description){
     return res.status(400).json({ msg: 'Todos los campos son obligatorios' });}
 
+  const lasterPants = await Pants.findOne().sort({ uploadedAt: -1}).limit(1);
+  const lasterPantsId = lasterPants._id;
 
   try {
     const newPublication = new Publication ({
       title,
       description,
-      price,
-      img,
-      img2,
-      img3,
-      img4,
-      size,
-      colors
+      post: lasterPantsId
     });
 
     const publicacionSaved = await newPublication.save();
@@ -59,7 +55,7 @@ export const getPublicationById = async (req, res) => {
 export const updatePublicationById = async (req, res) =>{
   try {
     const { id } = req.params
-    const { title, description, price, img, size, colors} = req.body
+    const { title, description} = req.body
 
     const existingPublication = await Publication.findById(id);
     if (!existingPublication) {
@@ -69,13 +65,6 @@ export const updatePublicationById = async (req, res) =>{
     await Publication.findByIdAndUpdate(id, {
       title: title,
       description: description,
-      price: price,
-      img: img,
-      img2: img2,
-      img3: img3,
-      img4: img4,
-      size: size,
-      colors: colors,
     });
 
     const updatePublication = await Publication.findById(id);
