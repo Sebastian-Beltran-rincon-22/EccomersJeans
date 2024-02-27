@@ -39,6 +39,7 @@ import indexRouter from "./router/index.js"
 import authRouter from "./router/auth.js"
 import userRouter from "./router/user.js"
 import publicationRouter from './router/publication.js';
+import pantsRouter from './router/pants.js'
 
 import uploadImgRouter from "./router/uploadImg.js"
 
@@ -46,6 +47,7 @@ app.use("/api", indexRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/publication", publicationRouter)
+app.use("/api/pants", pantsRouter)
 
 
 app.use("/api/uploadImg", uploadImgRouter);
