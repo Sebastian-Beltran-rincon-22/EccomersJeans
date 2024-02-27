@@ -12,39 +12,9 @@ const publicationSchema = new mongoose.Schema({
     trim: true
   },
 
-  price: {
-    type: Number,
-    trim: true
-  },
-
-  img:{
-    type: String,
-    trim: true
-  },
-
-  img2:{
-    type: String,
-    trim: true
-  },
-
-  img3:{
-    type: String,
-    trim: true
-  },
-
-  img4:{
-    type: String,
-    trim: true
-  },
-  
-  size: {
-    type: String,
-    trim: true
-  },
-
-  colors: {
-    type: String,
-    trim: true
+  post:{
+    ref: "Table",
+    type: mongoose.Schema.Types.ObjectId
   }
 
 },
