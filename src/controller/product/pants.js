@@ -1,4 +1,5 @@
-import Pant from "../schema/pants.js";
+import Pant from "../../schema/product/pants.js";
+
 
 //Create
 
@@ -72,7 +73,7 @@ export const updatePantsById = async (req, res) =>{
       img: img,
       img2: img2,
       img3: img3,
-      img3, img4,
+      img4: img4,
       size: size,
       colors: colors,
       counterPants: counterPants
@@ -116,7 +117,7 @@ export const updateCounterForId = async (req, res) =>{
 export const deletePantsById = async (req, res) => {
   try {
     const { id } = req.params;
-    await Pants.findByIdAndDelete(id);
+    await Pant.findByIdAndDelete(id);
     res.json({ msg: "Pantalon borrado" })
   } catch (error) {
     return res.status(500).json({ msg: error.message })

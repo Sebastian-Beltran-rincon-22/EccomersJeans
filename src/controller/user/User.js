@@ -1,5 +1,5 @@
-import Role from "../schema/Role.js";
-import Auth from "../schema/auth.js";
+import Role from "../../schema/user/Role.js";
+import Auth from "../../schema/auth/auth.js";
 
 
 //Create

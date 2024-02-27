@@ -1,6 +1,7 @@
 import express from 'express'
-import { createUser, getUser, getUserForId, updateUserForId }from '../controller/User.js';
-import { verifyToken, isAdmin } from '../middlewares/authJwt.js'
+import { createUser, getUser, getUserForId, updateUserForId }from '../../controller/user/User.js';
+import { verifyToken, isAdmin } from '../../middlewares/authJwt.js'
+
 // import {upload, uploadFile} from '../controller/uploadImg.js'
 const router = express.Router()
 

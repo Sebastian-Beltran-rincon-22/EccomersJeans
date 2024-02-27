@@ -1,5 +1,5 @@
-import Publication from "../schema/Publicacion.js";
-import Pants from "../schema/pants.js"
+import Publication from "../../schema/product/Publicacion.js";
+import Pants from "../../schema/product/pants.js"
 //Create
 
 export const createPublication = async (req, res) =>{

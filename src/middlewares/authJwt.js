@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
-import Auth from "../schema/auth.js"
-import Role from "../schema/Role.js"
+import Auth from "../schema/auth/auth.js"
+import Role from "../schema/user/Role.js"
 import { SECRET } from "../config.js"
 
 export const verifyToken = async (req, res, next) => {
