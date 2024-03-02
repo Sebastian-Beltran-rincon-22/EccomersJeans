@@ -1,5 +1,6 @@
-import Role from "../schema/Role.js";
-import Auth from "../schema/auth.js";
+import Role from "../schema/user/Role.js";
+import Auth from "../schema/auth/auth.js";
+
 import { ADMIN_EMAIL, ADMIN_USERNAME, ADMIN_PASSWORD, ADMIN_ROLES} from "../config.js";
 
 

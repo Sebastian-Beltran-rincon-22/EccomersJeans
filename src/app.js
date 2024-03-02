@@ -36,10 +36,10 @@ app.use(
 
 //Routers
 import indexRouter from "./router/index.js"
-import authRouter from "./router/auth.js"
-import userRouter from "./router/user.js"
-import publicationRouter from './router/publication.js';
-import pantsRouter from './router/pants.js'
+import authRouter from "./router/auth/auth.js"
+import userRouter from "./router/user/user.js"
+import publicationRouter from './router/product/publication.js';
+import pantsRouter from './router/product/pants.js'
 
 import uploadImgRouter from "./router/uploadImg.js"
 

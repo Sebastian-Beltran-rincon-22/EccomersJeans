@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import nodemailer from 'nodemailer'
-import Auth from '../schema/auth.js'
-import Role from '../schema/Role.js';
-import { ADMIN_EMAIL, SECRET, ADMIN_PASSWORD, URL } from '../config.js';
+import Auth from '../../schema/auth/auth.js'
+import Role from '../../schema/user/Role.js';
+
+import { ADMIN_EMAIL, SECRET, ADMIN_PASSWORD, URL } from '../../config.js';
 
 const transporter = nodemailer.createTransport({
   service:"gmail",
