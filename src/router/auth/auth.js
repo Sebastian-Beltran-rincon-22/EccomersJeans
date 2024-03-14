@@ -13,6 +13,8 @@ router.use((req, res, next) => {
   next();
 });
 
+router.post('/signInWithGoogle', controllerAuth.signInWithGoogle)
+
 router.post('/signup', controllerAuth.signup)
 
 router.post('/signin', controllerAuth.signinHandler)

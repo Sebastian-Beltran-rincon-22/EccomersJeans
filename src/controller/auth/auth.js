@@ -4,6 +4,13 @@ import nodemailer from 'nodemailer'
 import Auth from '../../schema/auth/auth.js'
 import Role from '../../schema/user/Role.js';
 
+// Inicialization firebase
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/auth';
+import firebaseConfig from '../../firebase.config.js';
+firebase.initializeApp(firebaseConfig);
+
+
 import { ADMIN_EMAIL, SECRET, ADMIN_PASSWORD, URL } from '../../config.js';
 
 const transporter = nodemailer.createTransport({
@@ -14,9 +21,40 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
 const controllerAuth = {
+    // Funtion to signIn with google
+    signInWithGoogle: async (req, res)=>{
+      try{
+        const idToken = req.body.access_token;
+        // console.log('token receive from frontend:', idToken)
 
+        const credential = firebase.auth.GoogleAuthProvider.credential(idToken, null, null);
+
+        // console.log('credential procces:', credential)
+
+        const userCredential = await firebase.auth().signInWithCredential(credential);
+        // console.log('userCredential receive from signInWithGoogle:', userCredential)
+
+        res.status(200).json({ user: userCredential.user })
+
+      }catch(error){
+        return res.status(500).json({error:"Error al autenticar con Google:", details: error.message});
+      }
+    },
+      // // Funtion to test from postman
+      // signInWithGooglePostman: async (req, res) => {
+      //   try {
+      //     const { access_token } = req.body;
+
+      //     if (!access_token) {
+      //       return res.status(400).json({ error: 'Token de acceso no proporcionado' });
+      //     }
+
+      //     return res.status(200).json({ access_token });
+      //   } catch (error) {
+      //     return res.status(500).json({ error: 'Error al autenticar con Google', details: error.message });
+      //   }
+      // },
       signup: async(req,res)=> {
         try{
           const {name, username, email, password, } = req.body;
