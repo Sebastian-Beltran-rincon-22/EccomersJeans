@@ -1,23 +1,18 @@
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import firebaseConfig from './firebase.config.js';
+firebase.initializeApp(firebaseConfig);
+
+
 import express from 'express'
 import cors from 'cors'
 const app = express();
 // import path from 'path';
 
+
 //app.use
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Handle router upload images to change ext
-// app.get('/uploads/:filename.:ext', (req, res) => {
-//   const filename = req.params.filename;
-//   const ext = req.params.ext;
-
-//   if (ext !== 'webp') {
-//     res.redirect(`/uploads/${filename}.webp`);
-//   } else {
-//     res.sendFile(path.join(__dirname, `./uploads/${filename}.${ext}`));
-//   }
-// });
 
 app.use(
   cors({
@@ -54,3 +49,16 @@ app.use("/api/uploadImg", uploadImgRouter);
 
 
 export default app;
+
+
+// Handle router upload images to change ext
+// app.get('/uploads/:filename.:ext', (req, res) => {
+//   const filename = req.params.filename;
+//   const ext = req.params.ext;
+
+//   if (ext !== 'webp') {
+//     res.redirect(`/uploads/${filename}.webp`);
+//   } else {
+//     res.sendFile(path.join(__dirname, `./uploads/${filename}.${ext}`));
+//   }
+// });
